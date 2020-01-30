@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
@@ -25,7 +26,7 @@ class AddressBookController {
     }
 
     @PostMapping
-    public ResponseEntity saveAddressBookDetail(@RequestBody @NotNull AddressBook addressBook) {
+    public ResponseEntity saveAddressBookDetail(@RequestBody @NotNull @Valid AddressBook addressBook) {
         service.saveAddressBook(addressBook);
         return new ResponseEntity(HttpStatus.CREATED);
     }
@@ -36,7 +37,7 @@ class AddressBookController {
     }
 
     @PostMapping("/unique")
-    public ResponseEntity<Set<String>> findUniqueFriends(@RequestBody @NotNull List<AddressBook> bookList) {
+    public ResponseEntity<Set<String>> findUniqueFriends(@RequestBody @NotNull @Valid List<AddressBook> bookList) {
         Set<String> uniqueList = service.findUniqueFriends(bookList);
 
         return new ResponseEntity<Set<String>>(uniqueList, new HttpHeaders(), HttpStatus.OK);

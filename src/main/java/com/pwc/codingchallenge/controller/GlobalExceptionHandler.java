@@ -4,6 +4,7 @@ import com.pwc.codingchallenge.api.ApiError;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -14,7 +15,7 @@ import javax.xml.bind.ValidationException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({ValidationException.class,IllegalArgumentException.class, ConstraintViolationException.class})
+    @ExceptionHandler({ValidationException.class,IllegalArgumentException.class, ConstraintViolationException.class, MethodArgumentNotValidException.class})
     public ResponseEntity<ApiError> handleValidationError(Exception exception, HttpServletRequest request){
         ApiError error = new ApiError();
         error.setErrorId(HttpStatus.BAD_REQUEST.name());
