@@ -1,4 +1,4 @@
-package com.pwc.coding.api;
+package com.pwc.codingchallenge.api;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,11 +10,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "address_book2")
 public class AddressBook implements Comparable<AddressBook> {
-
-//    @Id
-//    @GeneratedValue
-//    @Column(name="id")
-//    private Long id;
 
     @Id
     @Column(name="name")

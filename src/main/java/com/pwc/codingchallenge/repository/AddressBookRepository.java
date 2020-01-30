@@ -1,6 +1,6 @@
-package com.pwc.coding.repository;
+package com.pwc.codingchallenge.repository;
 
-import com.pwc.coding.api.AddressBook;
+import com.pwc.codingchallenge.api.AddressBook;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 

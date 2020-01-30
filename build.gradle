@@ -2,9 +2,10 @@ plugins {
 	id 'org.springframework.boot' version '2.2.4.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id 'jacoco'
 }
 
-group = 'com.example'
+group = 'com.pwc'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -45,3 +46,18 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+jacoco {
+	toolVersion = "0.8.5"
+	reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled false
+		csv.enabled false
+		html.destination file("${buildDir}/jacocoHtml")
+	}
+}
+
+test.finalizedBy jacocoTestReport

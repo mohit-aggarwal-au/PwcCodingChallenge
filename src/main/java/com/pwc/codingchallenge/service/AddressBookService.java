@@ -1,7 +1,7 @@
-package com.pwc.coding.service;
+package com.pwc.codingchallenge.service;
 
-import com.pwc.coding.api.AddressBook;
-import com.pwc.coding.repository.AddressBookRepository;
+import com.pwc.codingchallenge.api.AddressBook;
+import com.pwc.codingchallenge.repository.AddressBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,30 +28,6 @@ public class AddressBookService {
         List<AddressBook> books = repository.findAll();
         Collections.sort(books);
         return books;
-//        List<AddressBook> books = new ArrayList<>();
-//
-//        AddressBook book = new AddressBook();
-//        book.setName("rachel");
-//        book.setPhoneNumber("12345");
-//        books.add(book);
-//        book = new AddressBook();
-//        book.setName("chuchu");
-//        book.setPhoneNumber("23930");
-//        books.add(book);
-//        book = new AddressBook();
-//        book.setName("mike");
-//        book.setPhoneNumber("23930");
-//        books.add(book);
-//        book = new AddressBook();
-//        book.setName("alpha");
-//        book.setPhoneNumber("23930");
-//        books.add(book);
-//        book = new AddressBook();
-//        book.setName("mike");
-//        book.setPhoneNumber("23931");
-//        books.add(book);
-//        Collections.sort(books);
-//        return books;
 
     }
 

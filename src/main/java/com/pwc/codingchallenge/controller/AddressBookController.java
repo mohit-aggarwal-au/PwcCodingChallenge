@@ -1,7 +1,7 @@
-package com.pwc.coding.controller;
+package com.pwc.codingchallenge.controller;
 
-import com.pwc.coding.api.AddressBook;
-import com.pwc.coding.service.AddressBookService;
+import com.pwc.codingchallenge.api.AddressBook;
+import com.pwc.codingchallenge.service.AddressBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
