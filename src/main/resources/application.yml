@@ -1,0 +1,24 @@
+management:
+  info:
+   git:
+     mode: full
+  endpoints:
+    web:
+      exposure:
+        include: health, info, env, metrics
+
+spring:
+  datasource:
+    url: jdbc:h2:file:~/mike;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8090
+  servlet:
+    context-path: /ms-address-book
