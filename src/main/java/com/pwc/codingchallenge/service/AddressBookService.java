@@ -15,7 +15,6 @@ public class AddressBookService {
     private AddressBookRepository repository;
 
     public void saveAddressBook(AddressBook addressBook) {
-        System.out.println("address details are:" + addressBook.getName() + addressBook.getPhoneNumber());
         repository.save(addressBook);
     }
 

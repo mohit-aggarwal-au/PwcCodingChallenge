@@ -1,20 +1,30 @@
-package com.pwc.codingchallenge.service;
+package com.pwc.codingchallenge.component.service;
 
 import com.pwc.codingchallenge.api.AddressBook;
 import com.pwc.codingchallenge.component.ComponentTest;
 import com.pwc.codingchallenge.repository.AddressBookRepository;
+import com.pwc.codingchallenge.service.AddressBookService;
+import org.apache.logging.log4j.util.Strings;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import javax.validation.ConstraintViolationException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ComponentTest
 public class AddressBookServiceTest {
@@ -65,6 +75,30 @@ public class AddressBookServiceTest {
         assertEquals("12345", bookList.get(2).getPhoneNumber());
 
         System.out.print(bookList);
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("provideAddressBookInvalidObjects")
+    void isBlank_ShouldReturnTrueForNullOrBlankStrings(AddressBook book) {
+        service.saveAddressBook(null);
+        ConstraintViolationException exception = assertThrows(ConstraintViolationException.class, () ->
+                        service.saveAddressBook(book), "Expected to throw MethodArgumentNotValidException, but didn't throw it");
+        exception.getMessage();
+        assertTrue(exception.getMessage().contains("Exception occurred while parsing transactions file"));
+    }
+
+    private static Stream<Arguments> provideAddressBookInvalidObjects() {
+
+        AddressBook bookWithNullName = new AddressBook();
+        bookWithNullName.setPhoneNumber("3233");
+        AddressBook bookWithInvalidName = new AddressBook();
+        bookWithInvalidName.setName("Ger#$$%many");
+        bookWithInvalidName.setPhoneNumber("3233");
+        return Stream.of(
+                Arguments.of(bookWithNullName),
+                Arguments.of(bookWithInvalidName)
+        );
     }
 
     @Test
