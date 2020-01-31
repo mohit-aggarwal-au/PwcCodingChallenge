@@ -29,7 +29,7 @@ public class AddressBook implements Comparable<AddressBook> {
     private String phoneNumber;
 
     @Override
-    public int compareTo(AddressBook addressBook){
+    public int compareTo(AddressBook addressBook) {
         return this.getName().compareToIgnoreCase(addressBook.getName());
     }
 

@@ -13,7 +13,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -33,12 +32,12 @@ public class AddressBookServiceTest {
     private AddressBookRepository repository;
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         repository.deleteAll();
     }
 
     @AfterEach
-    public void tearDown(){
+    public void tearDown() {
         repository.deleteAll();
     }
 
@@ -71,7 +70,7 @@ public class AddressBookServiceTest {
     void saveAndGetAddressBook_withInValidValues_throwsException(AddressBook book) {
 
         InvalidArgumentException exception = assertThrows(InvalidArgumentException.class, () ->
-                        service.saveAddressBook(book), "Expected to throw InvalidArgumentException, but didn't throw it");
+                service.saveAddressBook(book), "Expected to throw InvalidArgumentException, but didn't throw it");
         exception.getMessage();
         assertTrue(exception.getMessage().contains("Request object is invalid"));
     }

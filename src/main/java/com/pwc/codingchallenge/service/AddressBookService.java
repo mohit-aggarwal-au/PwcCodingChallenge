@@ -9,7 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -50,13 +56,15 @@ public class AddressBookService {
         SortedSet<String> uniqueSet = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
         if (!CollectionUtils.isEmpty(bookList)) {
-            Set<String> nameList = bookList.stream().filter(filterValidAddressBookObject()).map(AddressBook::getName).collect(Collectors.toSet());
+            Set<String> nameList = bookList.stream().filter(filterValidAddressBookObject())
+                    .map(AddressBook::getName).collect(Collectors.toSet());
             uniqueSet.addAll(nameList);
         }
 
         List<AddressBook> addressBooks = getAddressBookList();
         if (!CollectionUtils.isEmpty(addressBooks)) {
-            Set<String> nameListFromDb = addressBooks.stream().filter(filterValidAddressBookObject()).map(AddressBook::getName).collect(Collectors.toSet());
+            Set<String> nameListFromDb = addressBooks.stream().filter(filterValidAddressBookObject())
+                    .map(AddressBook::getName).collect(Collectors.toSet());
             uniqueSet.addAll(nameListFromDb);
         }
         return uniqueSet;

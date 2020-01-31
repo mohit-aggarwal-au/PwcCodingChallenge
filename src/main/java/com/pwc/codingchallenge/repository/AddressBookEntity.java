@@ -15,10 +15,10 @@ import javax.persistence.Table;
 public class AddressBookEntity {
 
     @Id
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
 
-    @Column(name="phoneNumber")
+    @Column(name = "phoneNumber")
     private String phoneNumber;
 
 }

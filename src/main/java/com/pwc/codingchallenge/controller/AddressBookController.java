@@ -6,12 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 
 @RestController
 @RequestMapping("/address")
@@ -32,12 +38,12 @@ class AddressBookController {
     }
 
     @DeleteMapping
-    public void deleteAll(){
+    public void deleteAll() {
         service.deleteAll();
     }
 
     @PostMapping("/unique")
-    public ResponseEntity<Set<String>> findUniqueFriends(@RequestBody @NotNull @Valid List<AddressBook> bookList) {
+    public ResponseEntity<Set<String>> findUniqueFriends(@RequestBody List<AddressBook> bookList) {
         Set<String> uniqueList = service.findUniqueFriends(bookList);
 
         return new ResponseEntity<Set<String>>(uniqueList, new HttpHeaders(), HttpStatus.OK);

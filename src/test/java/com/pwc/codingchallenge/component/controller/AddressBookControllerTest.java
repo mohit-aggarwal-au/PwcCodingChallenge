@@ -6,6 +6,9 @@ import com.pwc.codingchallenge.repository.AddressBookRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
@@ -13,9 +16,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 import java.io.File;
+import java.util.stream.Stream;
 
 import static org.hamcrest.core.Is.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -58,12 +64,42 @@ public class AddressBookControllerTest {
                 .andExpect(jsonPath("$[2].phoneNumber", is("0411223345")));
     }
 
+    @ParameterizedTest
+    @MethodSource("provideAddressBookInvalidObjects")
+    public void saveAndGetAddressBook_withInValidValues_throwsException(String jsonString) throws Exception {
+        mvc.perform(post("/address")
+                .contentType(MediaType.APPLICATION_JSON).content(jsonString))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.errorId", is("BAD_REQUEST")));
+    }
+
+    private static Stream<Arguments> provideAddressBookInvalidObjects() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
+        String invalidSaveRequestWithBlankName = mapper.writeValueAsString(mapper.readValue
+                (new File(BASE_PATH + "invalidSaveRequestWithBlankName.json"), Object.class));
+        String invalidSaveRequestWithInvalidPhoneNumber = mapper.writeValueAsString(mapper.readValue
+                (new File(BASE_PATH + "invalidSaveRequestWithInvalidPhoneNumber.json"), Object.class));
+        String invalidSaveRequestWithInvalidPhoneNumberLength = mapper.writeValueAsString(mapper.readValue
+                (new File(BASE_PATH + "invalidSaveRequestWithInvalidPhoneNumberLength.json"), Object.class));
+        String invalidSaveRequestWithNullName = mapper.writeValueAsString(mapper.readValue
+                (new File(BASE_PATH + "invalidSaveRequestWithNullName.json"), Object.class));
+        return Stream.of(
+                Arguments.of(invalidSaveRequestWithBlankName),
+                Arguments.of(invalidSaveRequestWithInvalidPhoneNumber),
+                Arguments.of(invalidSaveRequestWithInvalidPhoneNumberLength),
+                Arguments.of(invalidSaveRequestWithNullName)
+        );
+    }
+
+
     @Test
     public void findUniqueFriends_withValidValues_returnsSuccess() throws Exception {
 
         saveDataInDb();
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(mapper.readValue(new File(BASE_PATH + "validFindUniqueFriendsRequest.json"), Object.class));
+        String jsonString = mapper.writeValueAsString(mapper.readValue
+                (new File(BASE_PATH + "validFindUniqueFriendsRequest.json"), Object.class));
 
         mvc.perform(post("/address/unique")
                 .contentType(MediaType.APPLICATION_JSON).content(jsonString))
@@ -81,7 +117,8 @@ public class AddressBookControllerTest {
 
         saveDataInDb();
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(mapper.readValue(new File(BASE_PATH + "validFindUniqueFriendsRequest.json"), Object.class));
+        String jsonString = mapper.writeValueAsString(mapper.readValue
+                (new File(BASE_PATH + "validFindUniqueFriendsRequest.json"), Object.class));
 
         mvc.perform(delete("/address")
                 .contentType(MediaType.APPLICATION_JSON).content(jsonString))
@@ -96,19 +133,22 @@ public class AddressBookControllerTest {
 
     private void saveDataInDb() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(mapper.readValue(new File(BASE_PATH + "validInputSaveRequest.json"), Object.class));
+        String jsonString = mapper.writeValueAsString(mapper.readValue
+                (new File(BASE_PATH + "validInputSaveRequest.json"), Object.class));
 
         mvc.perform(post("/address")
                 .contentType(MediaType.APPLICATION_JSON).content(jsonString))
                 .andExpect(status().is2xxSuccessful());
 
-        jsonString = mapper.writeValueAsString(mapper.readValue(new File(BASE_PATH + "validInputSaveRequest2.json"), Object.class));
+        jsonString = mapper.writeValueAsString(mapper.readValue
+                (new File(BASE_PATH + "validInputSaveRequest2.json"), Object.class));
 
         mvc.perform(post("/address")
                 .contentType(MediaType.APPLICATION_JSON).content(jsonString))
                 .andExpect(status().is2xxSuccessful());
 
-        jsonString = mapper.writeValueAsString(mapper.readValue(new File(BASE_PATH + "validInputSaveRequest3.json"), Object.class));
+        jsonString = mapper.writeValueAsString(mapper.readValue
+                (new File(BASE_PATH + "validInputSaveRequest3.json"), Object.class));
 
         mvc.perform(post("/address")
                 .contentType(MediaType.APPLICATION_JSON).content(jsonString))
