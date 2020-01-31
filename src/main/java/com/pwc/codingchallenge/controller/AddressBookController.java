@@ -22,7 +22,7 @@ class AddressBookController {
 
     @GetMapping
     public ResponseEntity<List<AddressBook>> findAll() {
-        return new ResponseEntity<List<AddressBook>>(service.getAddressBook(), new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<List<AddressBook>>(service.getAddressBookList(), new HttpHeaders(), HttpStatus.OK);
     }
 
     @PostMapping
