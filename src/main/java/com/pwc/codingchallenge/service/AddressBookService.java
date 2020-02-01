@@ -56,9 +56,9 @@ public class AddressBookService {
 
     }
 
-    public Set<String> findUniqueFriends(List<AddressBook> bookList) {
+    public List<String> findUniqueFriends(List<AddressBook> bookList) {
 
-        SortedSet<String> uniqueSet = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+        SortedSet<String> uniqueSet = new TreeSet<>();
 
         if (!CollectionUtils.isEmpty(bookList)) {
             //Stream to filter out null and blank values and get unique set of names
@@ -74,7 +74,10 @@ public class AddressBookService {
                     .map(AddressBook::getName).collect(Collectors.toSet());
             uniqueSet.addAll(nameListFromDb);
         }
-        return uniqueSet;
+
+        List<String> uniqueList = uniqueSet.stream().collect(Collectors.toList());
+        Collections.sort(uniqueList, String.CASE_INSENSITIVE_ORDER);
+        return uniqueList;
 
     }
 

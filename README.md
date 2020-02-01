@@ -28,14 +28,16 @@ Some details about the program -
 Assumptions -
 
 1. Address book will store unique names. Application will override an existing entry if same name is saved again in database with a different phone number.
-2. While sorting names from an address book, sorting will be case insensitive.
-3. Basic regex check has been used on name string. Also the name string size has been restricted to a maximum of 100 characters. 
-4. It is assumed that name is mandatory for an entry to be saved in address book, null or blank name will throw an exception.
-5. Phone number can accept a null or empty value.
-6. For the sake of simplicity, phone number has been restricted to save only digits and maximum size has been restricted to 10 digits. This can be changed to accommodate international numbers.
-7. When trying to get a list of unique friends, all the null and blank entries will be removed from the request body and database list.
-8. Although not mentioned in requirement, an additional delete endpoint has been configured to erase all the entries in database to start afresh.
-9. Although not mentioned in requirement, list of unique friends will be sorted
+2. Name is case sensitive, therefore 2 entries such as "Mike" and "mike" will be considered unique and will be saved in address book.
+3. While sorting names from an address book, sorting will be case insensitive.
+4. Since name is case sensitive, while finding unique names, all the unique strings will be there, for example, both entries - "Mike" and "mike" will be part of unique list. This behavior can be easily changed by instantiating TreeSet with case insensitive order.
+5. Basic regex check has been used on name string. Also the name string size has been restricted to a maximum of 100 characters. 
+6. It is assumed that name is mandatory for an entry to be saved in address book, null or blank name will throw an exception.
+7. Phone number can accept a null or empty value.
+8. For the sake of simplicity, phone number has been restricted to save only digits and maximum size has been restricted to 10 digits. This can be changed to accommodate international numbers.
+9. When trying to get a list of unique friends, all the null and blank entries will be removed from the request body and database list.
+10. Although not mentioned in requirement, an additional delete endpoint has been configured to erase all the entries in database to start afresh.
+11. Although not mentioned in requirement, list of unique friends will be sorted
 
 Further improvements -
 
