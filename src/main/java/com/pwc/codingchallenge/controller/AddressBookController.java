@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -27,7 +28,7 @@ class AddressBookController {
 
     @GetMapping
     public ResponseEntity<List<AddressBook>> getAddressBookList() {
-        return new ResponseEntity<List<AddressBook>>(service.getAddressBookListFromDb(), new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<List<AddressBook>>(service.getDbAddressBookList(), new HttpHeaders(), HttpStatus.OK);
     }
 
     @PostMapping
@@ -42,9 +43,9 @@ class AddressBookController {
     }
 
     @PostMapping("/unique")
-    public ResponseEntity<List<String>> findUniqueFriends(@RequestBody List<AddressBook> bookList) {
-        List<String> uniqueList = service.findUniqueFriends(bookList);
-        return new ResponseEntity<List<String>>(uniqueList, new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<Set<String>> findUniqueFriends(@RequestBody List<AddressBook> bookList) {
+        Set<String> uniqueList = service.findUniqueFriends(bookList);
+        return new ResponseEntity<Set<String>>(uniqueList, new HttpHeaders(), HttpStatus.OK);
     }
 
 }

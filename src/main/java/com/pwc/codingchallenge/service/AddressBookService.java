@@ -9,7 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,7 +36,7 @@ public class AddressBookService {
         }
     }
 
-    public List<AddressBook> getAddressBookListFromDb() {
+    public List<AddressBook> getDbAddressBookList() {
         List<AddressBook> addressBookList = new ArrayList<>();
         List<AddressBookEntity> books = repository.findAll();
         if (!CollectionUtils.isEmpty(books)) {
@@ -55,35 +60,27 @@ public class AddressBookService {
     public Set<String> findUniqueFriends(List<AddressBook> bookList) {
 
         Set<String> nameSet = getSetOfUniqueNames(bookList);
-        Set<String> nameSetFromDb = getSetOfUniqueNames(getAddressBookListFromDb());
+        Set<String> nameSetFromDb = getSetOfUniqueNames(getDbAddressBookList());
 
         if (CollectionUtils.isEmpty(bookList)) {
             //If input bookList is empty, then return set of names from database
             return nameSetFromDb;
         }
 
-        if(CollectionUtils.isEmpty(getAddressBookListFromDb())){
+        if (CollectionUtils.isEmpty(getDbAddressBookList())) {
             //If namesFromDbList is empty, then return set of input names
             return nameSet;
         }
-
-         return Stream.concat(nameSet.stream().filter(filterComplementValues(nameSetFromDb)),
-                 nameSetFromDb.stream().filter(filterComplementValues(nameSet)))
-                 .collect(Collectors.toSet());
-
-//        Set<String> differenceSet1 = nameSet.stream().filter(filterComplementValues(nameSetFromDb)).collect(Collectors.toSet());
-//        Set<String> differenceSet2 = nameSetFromDb.stream().filter(filterComplementValues(nameSet)).collect(Collectors.toSet());
-//
-//        //Union of all the relative complements
-//        differenceSet1.addAll(differenceSet2);
-//
-//        return differenceSet1;
+        //Return concatenation of complement values from both sets
+        return Stream.concat(nameSet.stream().filter(filterComplementValues(nameSetFromDb)),
+                nameSetFromDb.stream().filter(filterComplementValues(nameSet)))
+                .collect(Collectors.toSet());
 
     }
 
     private Set<String> getSetOfUniqueNames(List<AddressBook> addressBooks) {
         Set<String> setOfUniqueNames = new HashSet<>();
-        if(!CollectionUtils.isEmpty(addressBooks)){
+        if (!CollectionUtils.isEmpty(addressBooks)) {
             setOfUniqueNames = addressBooks.stream().filter(filterValidAddressBookObject()).map(AddressBook::getName)
                     .collect(Collectors.toSet());
         }

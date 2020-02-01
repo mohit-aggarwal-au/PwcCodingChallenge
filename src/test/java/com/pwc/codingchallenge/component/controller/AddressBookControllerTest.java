@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.io.File;
 import java.util.stream.Stream;
 
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -84,12 +85,9 @@ public class AddressBookControllerTest {
         mvc.perform(post("/address/unique")
                 .contentType(MediaType.APPLICATION_JSON).content(jsonString))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$[0]", is("bruce")))
-                .andExpect(jsonPath("$[1]", is("mike")))
-                .andExpect(jsonPath("$[2]", is("rachel")))
-                .andExpect(jsonPath("$[3]", is("smith")))
-                .andExpect(jsonPath("$[4]", is("steve")));
-
+                .andExpect(jsonPath("$", hasItem("smith")))
+                .andExpect(jsonPath("$", hasItem("steve")))
+                .andExpect(jsonPath("$", hasItem("bruce")));
     }
 
     @Test

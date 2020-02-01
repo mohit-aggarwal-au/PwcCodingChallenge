@@ -27,6 +27,7 @@ classes/
 build/
 out/
 conf/
+database/
 
 #IDE project files #
 *.iml

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
@@ -44,7 +45,7 @@ public class AddressBookServiceTest {
     public void saveAndGetAddressBook_withValidValues_returnsSuccess() {
         saveDataInDb();
 
-        List<AddressBook> bookList = service.getAddressBookListFromDb();
+        List<AddressBook> bookList = service.getDbAddressBookList();
         assertEquals(3, bookList.size());
 
         assertEquals("alpha", bookList.get(0).getName());
@@ -59,7 +60,7 @@ public class AddressBookServiceTest {
 
     @Test
     public void getAddressBook_withNoValuesInDb_returnsEmptyList() {
-        List<AddressBook> bookList = service.getAddressBookListFromDb();
+        List<AddressBook> bookList = service.getDbAddressBookList();
         assertEquals(0, bookList.size());
     }
 
@@ -77,26 +78,50 @@ public class AddressBookServiceTest {
     public void deleteAllAddressBook_withValidValues_returnsSuccess() {
         saveDataInDb();
         service.deleteAll();
-        List<AddressBook> bookList = service.getAddressBookListFromDb();
+        List<AddressBook> bookList = service.getDbAddressBookList();
         assertEquals(0, bookList.size());
 
     }
 
     @Test
     public void findUniqueFriends_WithEmptyRequestAndEmptyDbList_returnsEmptyList() {
-        List<String> uniqueFriends = service.findUniqueFriends(null);
+        Set<String> uniqueFriends = service.findUniqueFriends(null);
         assertEquals(0, uniqueFriends.size());
+    }
+
+    @Test
+    public void findUniqueFriends_withValidValues_returnsSuccess() {
+        saveDataInDb();
+
+        Set<String> uniqueFriends = service.findUniqueFriends(getAddressBookList());
+        assertEquals(2, uniqueFriends.size());
+        assertTrue(uniqueFriends.contains("alpha"));
+        assertTrue(uniqueFriends.contains("smith"));
     }
 
     @Test
     public void findUniqueFriends_WithEmptyRequest_returnsSuccess() {
         saveDataInDb();
-        List<String> uniqueFriends = service.findUniqueFriends(null);
+        Set<String> uniqueFriends = service.findUniqueFriends(null);
         assertEquals(3, uniqueFriends.size());
-        assertTrue("alpha".equals(uniqueFriends.get(0)));
-        assertTrue("mike".equals(uniqueFriends.get(1)));
-        assertTrue("rachel".equals(uniqueFriends.get(2)));
+        assertTrue(uniqueFriends.contains("alpha"));
+        assertTrue(uniqueFriends.contains("mike"));
+        assertTrue(uniqueFriends.contains("rachel"));
+    }
 
+    @Test
+    public void findUniqueFriends_WithEmptyDbList_returnsSuccess() {
+        Set<String> uniqueFriends = service.findUniqueFriends(getAddressBookList());
+        assertEquals(3, uniqueFriends.size());
+        assertTrue(uniqueFriends.contains("rachel"));
+        assertTrue(uniqueFriends.contains("smith"));
+        assertTrue(uniqueFriends.contains("mike"));
+    }
+
+    @Test
+    public void findUniqueFriends_WithEmptyDbListAndEmptyRequest_returnsSuccess() {
+        Set<String> uniqueFriends = service.findUniqueFriends(null);
+        assertEquals(0, uniqueFriends.size());
     }
 
     private void saveDataInDb() {
@@ -105,27 +130,6 @@ public class AddressBookServiceTest {
         service.saveAddressBook(AddressBook.builder().name("alpha").phoneNumber("0411223344").build());
     }
 
-    @Test
-    public void findUniqueFriends_withValidValues_returnsSuccess() {
-        saveDataInDb();
-
-        List<String> uniqueFriends = service.findUniqueFriends(getAddressBookList());
-        assertEquals(4, uniqueFriends.size());
-        assertTrue("alpha".equals(uniqueFriends.get(0)));
-        assertTrue("mike".equals(uniqueFriends.get(1)));
-        assertTrue("rachel".equals(uniqueFriends.get(2)));
-        assertTrue("smith".equals(uniqueFriends.get(3)));
-
-    }
-
-    @Test
-    public void findUniqueFriends_WithEmptyDbList_returnsSuccess() {
-        List<String> uniqueFriends = service.findUniqueFriends(getAddressBookList());
-        assertEquals(3, uniqueFriends.size());
-        assertTrue("mike".equals(uniqueFriends.get(0)));
-        assertTrue("rachel".equals(uniqueFriends.get(1)));
-        assertTrue("smith".equals(uniqueFriends.get(2)));
-    }
 
     private List<AddressBook> getAddressBookList() {
         List<AddressBook> bookList = new ArrayList<>();
@@ -149,5 +153,6 @@ public class AddressBookServiceTest {
                 Arguments.of(nullObject)
         );
     }
+
 
 }
