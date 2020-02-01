@@ -9,15 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class AddressBookService {
@@ -36,7 +31,7 @@ public class AddressBookService {
         }
     }
 
-    public List<AddressBook> getAddressBookList() {
+    public List<AddressBook> getAddressBookListFromDb() {
         List<AddressBook> addressBookList = new ArrayList<>();
         List<AddressBookEntity> books = repository.findAll();
         if (!CollectionUtils.isEmpty(books)) {
@@ -56,38 +51,58 @@ public class AddressBookService {
 
     }
 
-    public List<String> findUniqueFriends(List<AddressBook> bookList) {
 
-        SortedSet<String> uniqueSet = new TreeSet<>();
+    public Set<String> findUniqueFriends(List<AddressBook> bookList) {
 
-        if (!CollectionUtils.isEmpty(bookList)) {
-            //Stream to filter out null and blank values and get unique set of names
-            Set<String> nameList = bookList.stream().filter(filterValidAddressBookObject())
-                    .map(AddressBook::getName).collect(Collectors.toSet());
-            uniqueSet.addAll(nameList);
+        Set<String> nameSet = getSetOfUniqueNames(bookList);
+        Set<String> nameSetFromDb = getSetOfUniqueNames(getAddressBookListFromDb());
+
+        if (CollectionUtils.isEmpty(bookList)) {
+            //If input bookList is empty, then return set of names from database
+            return nameSetFromDb;
         }
 
-        List<AddressBook> addressBooks = getAddressBookList();
-        if (!CollectionUtils.isEmpty(addressBooks)) {
-            //Stream to filter out null and blank values and get unique set of names
-            Set<String> nameListFromDb = addressBooks.stream().filter(filterValidAddressBookObject())
-                    .map(AddressBook::getName).collect(Collectors.toSet());
-            uniqueSet.addAll(nameListFromDb);
+        if(CollectionUtils.isEmpty(getAddressBookListFromDb())){
+            //If namesFromDbList is empty, then return set of input names
+            return nameSet;
         }
 
-        List<String> uniqueList = uniqueSet.stream().collect(Collectors.toList());
-        Collections.sort(uniqueList, String.CASE_INSENSITIVE_ORDER);
-        return uniqueList;
+         return Stream.concat(nameSet.stream().filter(filterComplementValues(nameSetFromDb)),
+                 nameSetFromDb.stream().filter(filterComplementValues(nameSet)))
+                 .collect(Collectors.toSet());
+
+//        Set<String> differenceSet1 = nameSet.stream().filter(filterComplementValues(nameSetFromDb)).collect(Collectors.toSet());
+//        Set<String> differenceSet2 = nameSetFromDb.stream().filter(filterComplementValues(nameSet)).collect(Collectors.toSet());
+//
+//        //Union of all the relative complements
+//        differenceSet1.addAll(differenceSet2);
+//
+//        return differenceSet1;
 
     }
+
+    private Set<String> getSetOfUniqueNames(List<AddressBook> addressBooks) {
+        Set<String> setOfUniqueNames = new HashSet<>();
+        if(!CollectionUtils.isEmpty(addressBooks)){
+            setOfUniqueNames = addressBooks.stream().filter(filterValidAddressBookObject()).map(AddressBook::getName)
+                    .collect(Collectors.toSet());
+        }
+        return setOfUniqueNames;
+    }
+
 
     public void deleteAll() {
         repository.deleteAll();
     }
 
+
+    private static Predicate<String> filterComplementValues(Set<String> stringSet) {
+        return stringValue -> !stringSet.contains(stringValue);
+    }
+
+
     private static Predicate<AddressBook> filterValidAddressBookObject() {
         return book -> book != null && !StringUtils.isBlank(book.getName());
     }
-
 
 }

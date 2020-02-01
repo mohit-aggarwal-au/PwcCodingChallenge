@@ -44,7 +44,7 @@ public class AddressBookServiceTest {
     public void saveAndGetAddressBook_withValidValues_returnsSuccess() {
         saveDataInDb();
 
-        List<AddressBook> bookList = service.getAddressBookList();
+        List<AddressBook> bookList = service.getAddressBookListFromDb();
         assertEquals(3, bookList.size());
 
         assertEquals("alpha", bookList.get(0).getName());
@@ -59,7 +59,7 @@ public class AddressBookServiceTest {
 
     @Test
     public void getAddressBook_withNoValuesInDb_returnsEmptyList() {
-        List<AddressBook> bookList = service.getAddressBookList();
+        List<AddressBook> bookList = service.getAddressBookListFromDb();
         assertEquals(0, bookList.size());
     }
 
@@ -77,7 +77,7 @@ public class AddressBookServiceTest {
     public void deleteAllAddressBook_withValidValues_returnsSuccess() {
         saveDataInDb();
         service.deleteAll();
-        List<AddressBook> bookList = service.getAddressBookList();
+        List<AddressBook> bookList = service.getAddressBookListFromDb();
         assertEquals(0, bookList.size());
 
     }

@@ -27,7 +27,7 @@ class AddressBookController {
 
     @GetMapping
     public ResponseEntity<List<AddressBook>> getAddressBookList() {
-        return new ResponseEntity<List<AddressBook>>(service.getAddressBookList(), new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<List<AddressBook>>(service.getAddressBookListFromDb(), new HttpHeaders(), HttpStatus.OK);
     }
 
     @PostMapping

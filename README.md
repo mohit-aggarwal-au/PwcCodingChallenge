@@ -29,8 +29,8 @@ Assumptions -
 
 1. Address book will store unique names. Application will override an existing entry if same name is saved again in database with a different phone number.
 2. Name is case sensitive, therefore 2 entries such as "Mike" and "mike" will be considered unique and will be saved in address book.
-3. While sorting names from an address book, sorting will be case insensitive.
-4. Since name is case sensitive, while finding unique names, all the unique strings will be there, for example, both entries - "Mike" and "mike" will be part of unique list. This behavior can be easily changed by instantiating TreeSet with case insensitive order.
+3. Since name is case sensitive, while finding unique names, all the unique strings will be there, for example, both entries - "Mike" and "mike" will be part of unique list. This behavior can be easily changed by instantiating TreeSet with case insensitive order.
+4. While sorting names from an address book, sorting will be case insensitive.
 5. Basic regex check has been used on name string. Also the name string size has been restricted to a maximum of 100 characters. 
 6. It is assumed that name is mandatory for an entry to be saved in address book, null or blank name will throw an exception.
 7. Phone number can accept a null or empty value.
