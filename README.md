@@ -2,20 +2,26 @@
 
 System requirements to run application - 
 
-1. Application has been developed using Springboot2 and runs on Java 8
-2. Gradle is required to build and run application
-3. Code has been built and tested on a mac machine. Some configuration changes may be required for code to run on a windows machine. 
+1. Application has been developed using Springboot2 and runs on Java 8.
+2. Gradle is used to build and run application.
+3. Code has been built and tested on a mac machine. Some configuration changes may be required for code to run on a windows machine, for instance - how gradle commands are invoked.
 
 Some details about the program -
 
-1. Program has been designed using spring boot application to expose Rest API endpoints to call the function to add entries in address book, get all the enteries, find unique friends and delete all friends
-2. Data is persisted using H2 database in a memory on disk. Data file will be saved in project folder in database directory.
-3. H2 database console can be accessed through link - http://localhost:8090/ms-address-book/h2-console. URL, username, password and driverClassName are configured in application.yml file in resources
-3. Program can be run by running command - "./gradlew bootRun". It will spin up application and will run on the embedded tomcat server. To stop application, please use command - "./gradlew -stop"
-4. Rest APIs can be invoked using postman or through curl command in terminal. I have added postman script that contains all the Rest API endpoints along with request body. Request bodies can also be found in - src/test/resources/request folder
-5. Code can be built by running following command on terminal - "./gradlew clean build"
-5. Jaccoco code coverage tool has been used to assess the code coverage through tests. Jacoco runs and generates report at location - "build/reports/JacocoHtml/index.html". Code coverage stands at 100% for branch and line
-6. Code quality tool such as Checkstyle and FindBugs have been added and runs as a part of code build.
+1. Application has exposed Rest API endpoints to call the function to 
+    a. Add entry in address book - post request on URL - http://localhost:8090/ms-address-book/address
+    b. Get all the entries in address book - get request on URL http://localhost:8090/ms-address-book/address
+    c. Find unique friends - post request on URL - http://localhost:8090/ms-address-book/address/unique
+    d. Delete all entries in address book - delete request on URL - http://localhost:8090/ms-address-book/address
+    
+2. Application can be invoked by running command - "./gradlew bootRun". It will spin up application and will run on the embedded tomcat server. To stop application, please use command - "./gradlew -stop"
+3. Rest APIs can be invoked using postman or through curl command in terminal. I have added postman script in postman folder in project directory that contains all the Rest API endpoints along with request body. Request bodies can also be found in - src/test/resources/request folder
+4. Data is persisted using H2 database in a memory on disk. Data file will be saved in project folder in database directory.
+5. H2 database console can be accessed through link - http://localhost:8090/ms-address-book/h2-console. URL, username, password and driverClassName are configured in application.yml file in resources
+6. Code can be built by running following command on terminal - "./gradlew clean build"
+7. Jaccoco code coverage tool has been used to assess the code coverage through tests. Jacoco runs and generates report at location - "build/reports/JacocoHtml/index.html". 
+8. Code coverage stands at 100% for branch and line
+9. Code quality tool such as Checkstyle and FindBugs have been added and runs as a part of code build.
 
 Assumptions -
 
