@@ -1,12 +1,12 @@
 # PwcCodingChallenge
 
-System requirements to run application - 
+#### System requirements to run application - ####
 
 1. Application has been developed using Springboot2 and runs on Java 8.
 2. Gradle is used to build and run application.
 3. Code has been built and tested on a mac machine. Some configuration changes may be required for code to run on a windows machine, for instance - how gradle commands are invoked.
 
-Some details about the program -
+#### Some details about the program - ####
 
 1. Application has exposed following Rest API endpoints
     1. Add entry in address book - post request on URL - http://localhost:8090/ms-address-book/address    
@@ -24,7 +24,7 @@ Some details about the program -
 10. Code coverage stands at 100% for branch and line
 11. Code quality tools such as Checkstyle and FindBugs have been added and runs as a part of code build.
 
-Assumptions -
+#### Assumptions - ####
 
 1. Address book will store unique names. Application will override an existing entry if same name is saved again in database with a different phone number.
 2. Name is case sensitive, therefore 2 entries such as "Mike" and "mike" will be considered unique and will be saved in address book.
@@ -37,7 +37,7 @@ Assumptions -
 9. For the sake of simplicity, phone number has been restricted to save only digits and maximum size has been restricted to 10 digits. This can be changed to accommodate international numbers.
 10. Although not mentioned in requirement, an additional delete endpoint has been configured to erase all the entries in database to start afresh.
 
-Further improvements -
+#### Further improvements - ####
 
 1. Blackbox tests can be written to test rest apis. BDD approach can be used to write blackbox test cases using Cucumber. 
 2. Test cases can be broken down in following way 
