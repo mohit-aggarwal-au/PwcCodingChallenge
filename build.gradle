@@ -62,7 +62,9 @@ jacocoTestReport {
 	}
 	afterEvaluate {
 		classDirectories = files(classDirectories.files.collect {
-			fileTree(dir: it, exclude: 'com/pwc/codingchallenge/api')
+			fileTree(dir: it, exclude: ['com/pwc/codingchallenge/api',
+										'com/pwc/codingchallenge/repository/entity',
+										'com/pwc/codingchallenge/Application.class'])
 		})
 	}
 }

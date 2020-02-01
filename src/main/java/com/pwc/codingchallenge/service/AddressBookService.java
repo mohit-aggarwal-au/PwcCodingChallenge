@@ -2,8 +2,8 @@ package com.pwc.codingchallenge.service;
 
 import com.pwc.codingchallenge.api.AddressBook;
 import com.pwc.codingchallenge.exception.InvalidArgumentException;
-import com.pwc.codingchallenge.repository.AddressBookEntity;
 import com.pwc.codingchallenge.repository.AddressBookRepository;
+import com.pwc.codingchallenge.repository.entity.AddressBookEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,9 +27,8 @@ public class AddressBookService {
 
     public void saveAddressBook(AddressBook addressBook) {
         if (addressBook != null && !StringUtils.isBlank(addressBook.getName())) {
-            AddressBookEntity entity = new AddressBookEntity();
-            entity.setName(addressBook.getName());
-            entity.setPhoneNumber(addressBook.getPhoneNumber());
+            AddressBookEntity entity = AddressBookEntity.builder().name(addressBook.getName())
+                    .phoneNumber(addressBook.getPhoneNumber()).build();
             repository.save(entity);
         } else {
             throw new InvalidArgumentException("Request object is invalid");
@@ -47,7 +46,7 @@ public class AddressBookService {
                 addressBookList.add(book);
             });
 
-
+            //Comparator to sort AddressBook object as per name.
             Comparator<AddressBook> addressBookComparator = Comparator.comparing(AddressBook::getName,
                     Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER));
 
@@ -62,6 +61,7 @@ public class AddressBookService {
         SortedSet<String> uniqueSet = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
         if (!CollectionUtils.isEmpty(bookList)) {
+            //Stream to filter out null and blank values and get unique set of names
             Set<String> nameList = bookList.stream().filter(filterValidAddressBookObject())
                     .map(AddressBook::getName).collect(Collectors.toSet());
             uniqueSet.addAll(nameList);
@@ -69,6 +69,7 @@ public class AddressBookService {
 
         List<AddressBook> addressBooks = getAddressBookList();
         if (!CollectionUtils.isEmpty(addressBooks)) {
+            //Stream to filter out null and blank values and get unique set of names
             Set<String> nameListFromDb = addressBooks.stream().filter(filterValidAddressBookObject())
                     .map(AddressBook::getName).collect(Collectors.toSet());
             uniqueSet.addAll(nameListFromDb);
