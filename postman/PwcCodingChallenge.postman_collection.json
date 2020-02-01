@@ -1,0 +1,139 @@
+{
+	"info": {
+		"_postman_id": "15aa2884-02b8-4059-a4f5-9ad57f5e0f38",
+		"name": "PwcCodingChallenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SaveObjectToAddressBook",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\": \"steve\",\n\"phoneNumber\": \"0401234567\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/ms-address-book/address",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"ms-address-book",
+						"address"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAddressBookList",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/ms-address-book/address",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"ms-address-book",
+						"address"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindUniqueFriends",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"name\": \"bruce\",\n    \"phoneNumber\": \"0400112233\"\n  },\n  {\n    \"name\": \"mike\",\n    \"phoneNumber\": \"0400112234\"\n  },\n  {\n    \"name\": \"steve\",\n    \"phoneNumber\": \"0400112235\"\n  },\n  {\n    \"name\": \"rachel\",\n    \"phoneNumber\": \"0400112236\"\n  }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/ms-address-book/address/unique",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"ms-address-book",
+						"address",
+						"unique"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteAllAddressBook",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/ms-address-book/address",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"ms-address-book",
+						"address"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

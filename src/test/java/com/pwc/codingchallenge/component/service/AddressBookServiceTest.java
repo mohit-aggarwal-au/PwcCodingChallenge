@@ -58,7 +58,6 @@ public class AddressBookServiceTest {
         assertEquals("0411223399", bookList.get(2).getPhoneNumber());
     }
 
-
     @Test
     public void getAddressBook_withNoValuesInDb_returnsEmptyList() {
         List<AddressBook> bookList = service.getAddressBookList();
@@ -73,18 +72,6 @@ public class AddressBookServiceTest {
                 service.saveAddressBook(book), "Expected to throw InvalidArgumentException, but didn't throw it");
         exception.getMessage();
         assertTrue(exception.getMessage().contains("Request object is invalid"));
-    }
-
-    private static Stream<Arguments> provideAddressBookInvalidObjects() {
-
-        AddressBook bookWithNullName = AddressBook.builder().phoneNumber("0411223399").build();
-        AddressBook bookWithInvalidName = AddressBook.builder().name("   ").build();
-        AddressBook nullObject = null;
-        return Stream.of(
-                Arguments.of(bookWithNullName),
-                Arguments.of(bookWithInvalidName),
-                Arguments.of(nullObject)
-        );
     }
 
     @Test
@@ -149,6 +136,18 @@ public class AddressBookServiceTest {
         bookList.add(AddressBook.builder().name(null).phoneNumber("0422334458").build());
         bookList.add(AddressBook.builder().name("mike").phoneNumber("0422334459").build());
         return bookList;
+    }
+
+    private static Stream<Arguments> provideAddressBookInvalidObjects() {
+
+        AddressBook bookWithNullName = AddressBook.builder().phoneNumber("0411223399").build();
+        AddressBook bookWithInvalidName = AddressBook.builder().name("   ").build();
+        AddressBook nullObject = null;
+        return Stream.of(
+                Arguments.of(bookWithNullName),
+                Arguments.of(bookWithInvalidName),
+                Arguments.of(nullObject)
+        );
     }
 
 }

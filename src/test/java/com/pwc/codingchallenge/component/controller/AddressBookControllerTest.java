@@ -73,26 +73,6 @@ public class AddressBookControllerTest {
                 .andExpect(jsonPath("$.errorId", is("BAD_REQUEST")));
     }
 
-    private static Stream<Arguments> provideAddressBookInvalidObjects() throws Exception {
-
-        ObjectMapper mapper = new ObjectMapper();
-        String invalidSaveRequestWithBlankName = mapper.writeValueAsString(mapper.readValue
-                (new File(BASE_PATH + "invalidSaveRequestWithBlankName.json"), Object.class));
-        String invalidSaveRequestWithInvalidPhoneNumber = mapper.writeValueAsString(mapper.readValue
-                (new File(BASE_PATH + "invalidSaveRequestWithInvalidPhoneNumber.json"), Object.class));
-        String invalidSaveRequestWithInvalidPhoneNumberLength = mapper.writeValueAsString(mapper.readValue
-                (new File(BASE_PATH + "invalidSaveRequestWithInvalidPhoneNumberLength.json"), Object.class));
-        String invalidSaveRequestWithNullName = mapper.writeValueAsString(mapper.readValue
-                (new File(BASE_PATH + "invalidSaveRequestWithNullName.json"), Object.class));
-        return Stream.of(
-                Arguments.of(invalidSaveRequestWithBlankName),
-                Arguments.of(invalidSaveRequestWithInvalidPhoneNumber),
-                Arguments.of(invalidSaveRequestWithInvalidPhoneNumberLength),
-                Arguments.of(invalidSaveRequestWithNullName)
-        );
-    }
-
-
     @Test
     public void findUniqueFriends_withValidValues_returnsSuccess() throws Exception {
 
@@ -153,5 +133,24 @@ public class AddressBookControllerTest {
         mvc.perform(post("/address")
                 .contentType(MediaType.APPLICATION_JSON).content(jsonString))
                 .andExpect(status().is2xxSuccessful());
+    }
+
+    private static Stream<Arguments> provideAddressBookInvalidObjects() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
+        String invalidSaveRequestWithBlankName = mapper.writeValueAsString(mapper.readValue
+                (new File(BASE_PATH + "invalidSaveRequestWithBlankName.json"), Object.class));
+        String invalidSaveRequestWithInvalidPhoneNumber = mapper.writeValueAsString(mapper.readValue
+                (new File(BASE_PATH + "invalidSaveRequestWithInvalidPhoneNumber.json"), Object.class));
+        String invalidSaveRequestWithInvalidPhoneNumberLength = mapper.writeValueAsString(mapper.readValue
+                (new File(BASE_PATH + "invalidSaveRequestWithInvalidPhoneNumberLength.json"), Object.class));
+        String invalidSaveRequestWithNullName = mapper.writeValueAsString(mapper.readValue
+                (new File(BASE_PATH + "invalidSaveRequestWithNullName.json"), Object.class));
+        return Stream.of(
+                Arguments.of(invalidSaveRequestWithBlankName),
+                Arguments.of(invalidSaveRequestWithInvalidPhoneNumber),
+                Arguments.of(invalidSaveRequestWithInvalidPhoneNumberLength),
+                Arguments.of(invalidSaveRequestWithNullName)
+        );
     }
 }

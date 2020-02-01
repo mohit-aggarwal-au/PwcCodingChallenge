@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: jdbc:h2:file:~/testdb;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+    url: jdbc:h2:file:./database/TestDbFile;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
 
 

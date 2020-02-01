@@ -9,12 +9,13 @@ System requirements to run application -
 Some details about the program -
 
 1. Program has been designed using spring boot application to expose Rest API endpoints to call the function to add entries in address book, get all the enteries, find unique friends and delete all friends
-2. Data is persisted using H2 database in a memory on disk. Data file will be saved in local disk at location - "Users/<username>/<filename>.mv.db" for Mac users and "C:\Users\<userName>\<filename>.mv.db" for Window users
+2. Data is persisted using H2 database in a memory on disk. Data file will be saved in project folder in database directory.
+3. H2 database console can be accessed through link - http://localhost:8090/ms-address-book/h2-console. URL, username, password and driverClassName are configured in application.yml file in resources
 3. Program can be run by running command - "./gradlew bootRun". It will spin up application and will run on the embedded tomcat server. To stop application, please use command - "./gradlew -stop"
-4. Rest APIs can be invoked using postman or through curl command in terminal. I have added postman script that contains all the Rest API endpoints along with request body.
+4. Rest APIs can be invoked using postman or through curl command in terminal. I have added postman script that contains all the Rest API endpoints along with request body. Request bodies can also be found in - src/test/resources/request folder
 5. Code can be built by running following command on terminal - "./gradlew clean build"
-5. Jaccoco code coverage tool has been used to assess the code coverage through tests. Jacoco runs and generates report at location - "build/JacocoHtml/index.html". Code coverage stands at 100% for branch and 98% for line
-6. Code quality tool such as Checkstyle has been added and runs as a part of code build.
+5. Jaccoco code coverage tool has been used to assess the code coverage through tests. Jacoco runs and generates report at location - "build/reports/JacocoHtml/index.html". Code coverage stands at 100% for branch and line
+6. Code quality tool such as Checkstyle and FindBugs have been added and runs as a part of code build.
 
 Assumptions -
 
