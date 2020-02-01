@@ -28,7 +28,7 @@ Assumptions -
 
 1. Address book will store unique names. Application will override an existing entry if same name is saved again in database with a different phone number.
 2. Name is case sensitive, therefore 2 entries such as "Mike" and "mike" will be considered unique and will be saved in address book.
-3. Since name is case sensitive, while finding unique names, all the unique strings will be added, for example, both entries - "Mike" and "mike" will be part of unique list. This behavior can be easily changed by instantiating TreeSet with case insensitive order.
+3. Since name is case sensitive, while finding unique names, all the unique strings will be added, for example, both entries - "Mike" and "mike" will be part of unique list. This behavior can be easily changed by using TreeSet with case insensitive order.
 4. When trying to get a list of unique friends, all the null and blank entries will be removed from the incoming request body and database list.
 5. While sorting names from an address book, sorting will be case insensitive.
 6. Basic regex check has been used on name string. Also the name string size has been restricted to a maximum of 100 characters. 
@@ -40,7 +40,7 @@ Assumptions -
 Further improvements -
 
 1. Blackbox tests can be written to test rest apis. BDD approach can be used to write blackbox test cases using Cucumber. 
-2. Further tests can be broken down in following way 
+2. Test cases can be broken down in following way 
     1. Unit : to test line and branch coverage without invoking a spring application. All the dependencies are mocked.
     2. Component: to test the integration between different spring components such as service and repository
     3. Blackbox: to test an API end to end. Call to other microservices are mocked
