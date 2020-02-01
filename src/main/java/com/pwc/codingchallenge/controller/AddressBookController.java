@@ -27,25 +27,24 @@ class AddressBookController {
     private AddressBookService service;
 
     @GetMapping
-    public ResponseEntity<List<AddressBook>> findAll() {
+    public ResponseEntity<List<AddressBook>> getAddressBookList() {
         return new ResponseEntity<List<AddressBook>>(service.getAddressBookList(), new HttpHeaders(), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity saveAddressBookDetail(@RequestBody @NotNull @Valid AddressBook addressBook) {
+    public ResponseEntity saveAddressBook(@RequestBody @NotNull @Valid AddressBook addressBook) {
         service.saveAddressBook(addressBook);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @DeleteMapping
-    public void deleteAll() {
+    public void deleteAllAddressBookObjects() {
         service.deleteAll();
     }
 
     @PostMapping("/unique")
     public ResponseEntity<Set<String>> findUniqueFriends(@RequestBody List<AddressBook> bookList) {
         Set<String> uniqueList = service.findUniqueFriends(bookList);
-
         return new ResponseEntity<Set<String>>(uniqueList, new HttpHeaders(), HttpStatus.OK);
     }
 

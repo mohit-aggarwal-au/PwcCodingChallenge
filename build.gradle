@@ -58,7 +58,12 @@ jacocoTestReport {
 	reports {
 		xml.enabled false
 		csv.enabled false
-		html.destination file("${buildDir}/jacocoHtml")
+		html.destination file("${buildDir}/reports/jacocoHtml")
+	}
+	afterEvaluate {
+		classDirectories = files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: 'com/pwc/codingchallenge/api')
+		})
 	}
 }
 

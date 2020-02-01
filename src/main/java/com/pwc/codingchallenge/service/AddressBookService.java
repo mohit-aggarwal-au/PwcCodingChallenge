@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
@@ -42,10 +42,16 @@ public class AddressBookService {
         List<AddressBookEntity> books = repository.findAll();
         if (!CollectionUtils.isEmpty(books)) {
             books.forEach(addressBookEntity -> {
-                AddressBook book = new AddressBook(addressBookEntity.getName(), addressBookEntity.getPhoneNumber());
+                AddressBook book = AddressBook.builder().name(addressBookEntity.getName())
+                        .phoneNumber(addressBookEntity.getPhoneNumber()).build();
                 addressBookList.add(book);
             });
-            Collections.sort(addressBookList);
+
+
+            Comparator<AddressBook> addressBookComparator = Comparator.comparing(AddressBook::getName,
+                    Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER));
+
+            Collections.sort(addressBookList, addressBookComparator);
         }
         return addressBookList;
 

@@ -77,10 +77,8 @@ public class AddressBookServiceTest {
 
     private static Stream<Arguments> provideAddressBookInvalidObjects() {
 
-        AddressBook bookWithNullName = new AddressBook();
-        bookWithNullName.setPhoneNumber("0411223399");
-        AddressBook bookWithInvalidName = new AddressBook();
-        bookWithInvalidName.setName("  ");
+        AddressBook bookWithNullName = AddressBook.builder().phoneNumber("0411223399").build();
+        AddressBook bookWithInvalidName = AddressBook.builder().name("   ").build();
         AddressBook nullObject = null;
         return Stream.of(
                 Arguments.of(bookWithNullName),
@@ -115,20 +113,9 @@ public class AddressBookServiceTest {
     }
 
     private void saveDataInDb() {
-        AddressBook book = new AddressBook();
-        book.setName("rachel");
-        book.setPhoneNumber("0411223399");
-        service.saveAddressBook(book);
-
-        book = new AddressBook();
-        book.setName("mike");
-        book.setPhoneNumber("0411223388");
-        service.saveAddressBook(book);
-
-        book = new AddressBook();
-        book.setName("alpha");
-        book.setPhoneNumber("0411223344");
-        service.saveAddressBook(book);
+        service.saveAddressBook(AddressBook.builder().name("rachel").phoneNumber("0411223399").build());
+        service.saveAddressBook(AddressBook.builder().name("mike").phoneNumber("0411223388").build());
+        service.saveAddressBook(AddressBook.builder().name("alpha").phoneNumber("0411223344").build());
     }
 
     @Test
@@ -155,34 +142,12 @@ public class AddressBookServiceTest {
 
     private List<AddressBook> getAddressBookList() {
         List<AddressBook> bookList = new ArrayList<>();
-
-        AddressBook book = new AddressBook();
-        book.setName("rachel");
-        book.setPhoneNumber("0422334455");
-        bookList.add(book);
-
-        book = new AddressBook();
-        book.setName("  ");
-        book.setPhoneNumber("0422334456");
-        bookList.add(book);
-
-        book = new AddressBook();
-        book.setName("smith");
-        book.setPhoneNumber("0422334457");
-        bookList.add(book);
-
+        bookList.add(AddressBook.builder().name("rachel").phoneNumber("0422334455").build());
+        bookList.add(AddressBook.builder().name("  ").phoneNumber("0422334456").build());
+        bookList.add(AddressBook.builder().name("smith").phoneNumber("0422334457").build());
         bookList.add(null);
-
-        book = new AddressBook();
-        book.setName(null);
-        book.setPhoneNumber("0422334458");
-        bookList.add(book);
-
-        book = new AddressBook();
-        book.setName("mike");
-        book.setPhoneNumber("0422334459");
-        bookList.add(book);
-
+        bookList.add(AddressBook.builder().name(null).phoneNumber("0422334458").build());
+        bookList.add(AddressBook.builder().name("mike").phoneNumber("0422334459").build());
         return bookList;
     }
 

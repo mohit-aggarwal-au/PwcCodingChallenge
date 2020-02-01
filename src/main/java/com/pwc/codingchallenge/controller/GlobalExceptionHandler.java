@@ -9,7 +9,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import javax.xml.bind.ValidationException;
 
@@ -18,18 +17,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({ValidationException.class, IllegalArgumentException.class, ConstraintViolationException.class,
             MethodArgumentNotValidException.class, InvalidArgumentException.class})
-    public ResponseEntity<ApiError> handleValidationException(Exception exception, HttpServletRequest request) {
-        ApiError error = new ApiError();
-        error.setErrorId(HttpStatus.BAD_REQUEST.name());
-        error.setMessage(exception.getMessage());
+    public ResponseEntity<ApiError> handleValidationException(Exception exception) {
+        ApiError error = ApiError.builder().errorId(HttpStatus.BAD_REQUEST.name())
+                .message(exception.getMessage()).build();
         return new ResponseEntity<ApiError>(error, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiError> handleException(Exception exception, HttpServletRequest request) {
-        ApiError error = new ApiError();
-        error.setErrorId(HttpStatus.INTERNAL_SERVER_ERROR.name());
-        error.setMessage(exception.getMessage());
+    public ResponseEntity<ApiError> handleException(Exception exception) {
+        ApiError error = ApiError.builder().errorId(HttpStatus.INTERNAL_SERVER_ERROR.name())
+                .message(exception.getMessage()).build();
         return new ResponseEntity<ApiError>(error, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

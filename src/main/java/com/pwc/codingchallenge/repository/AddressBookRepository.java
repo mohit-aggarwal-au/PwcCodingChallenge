@@ -1,12 +1,12 @@
 package com.pwc.codingchallenge.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 
 @Transactional
-@Component
+@Repository
 public interface AddressBookRepository extends JpaRepository<AddressBookEntity, String> {
 
 }

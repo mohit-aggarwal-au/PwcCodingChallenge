@@ -1,9 +1,8 @@
 package com.pwc.codingchallenge.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.Valid;
@@ -14,23 +13,19 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @Valid
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AddressBook implements Comparable<AddressBook> {
+public class AddressBook  {
 
-    @NotNull
+    //Pattern check to discard special characters
     @Pattern(regexp = "^[\\p{L} .'-]+$")
-    @Size(max = 200)
+    @Size(max = 100)
+    @NotNull
     private String name;
 
+    //Pattern check to allow only digits
     @Pattern(regexp = "^[0-9]*$")
     @Size(max = 10)
     private String phoneNumber;
-
-    @Override
-    public int compareTo(AddressBook addressBook) {
-        return this.getName().compareToIgnoreCase(addressBook.getName());
-    }
 
 }
