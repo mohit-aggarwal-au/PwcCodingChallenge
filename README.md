@@ -1,5 +1,7 @@
 # PwcCodingChallenge
 
+Problem statement is given in pdf file - PwC Java_Node Coding Challenge.pdf
+
 #### System requirements to run application - ####
 
 1. Application has been developed using Springboot2 and runs on Java 8.
